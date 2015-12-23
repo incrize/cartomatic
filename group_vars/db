@@ -3,7 +3,7 @@ mysql:
   key_buffer: 64M
   query_cache_limit: 8M
   query_cache_size: 128M
-  max_connections: 32
+  max_connections: 100
   sort_buffer_size: 8M
   read_buffer_size: 128K
   read_rnd_buffer_size: 2M
