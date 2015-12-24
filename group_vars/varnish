@@ -9,7 +9,7 @@ varnish:
   default_backend_host: "127.0.0.1"
   default_backend_port: "8082"
   listen_port: "80"
-  secret: "{{ lookup('password', '/tmp/password_file1 chars=ascii_letters length=7') }}-{{ lookup('password', '/tmp/password_file2 chars=ascii_letters length=7') }}"
+  secret: "{{ lookup('password', '/tmp/password_file1 chars=ascii_letters length=7')|lower }}-{{ lookup('password', '/tmp/password_file2 chars=ascii_letters length=7')|lower }}"
   config_path: /etc/varnish
   admin_listen_host: "127.0.0.1"
   admin_listen_port: "6082"
