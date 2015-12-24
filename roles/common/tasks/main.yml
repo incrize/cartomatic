@@ -7,6 +7,10 @@
   tags:
     - common
 
+- name: ensure SELinux is turned off
+  action: command /usr/sbin/setenforce 0
+  when: ansible_os_family == "RedHat"
+
 - name: installing dotdeb repository
   template:
     src=sources.list.d/dotdeb.list.j2
