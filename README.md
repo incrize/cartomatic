@@ -1,58 +1,99 @@
-## About
+Сценарии:
 
-Cartomatic helps you setup server for CS-Cart or Multi-Vendor 4.0+.
+- *lamp.yml*
+nginx + apache + mysql + php5.6. 
 
-[![Cartomatic: how to use](https://img.youtube.com/vi/qywoXad8ZIM/0.jpg)](http://www.youtube.com/watch?v=qywoXad8ZIM)
+Пример установки:
 
-## Quick install
+```
+ansible-playbook -e @config/main.json -c local -i inventory lamp.yml
+```
 
-Log in to your server as superuser (root) via SSH and execute this command:
+- *lemp.yml* 
+nginx + mysql + php5.6.
 
-    wget -qO - http://cartoma.tk/installer | bash -s -- yourdomain.tld
+Пример установки:
 
-Done. It works.
+```
+ansible-playbook -e @config/main.json -c local -i inventory lemp.yml
+```
 
-## Manual install
+- *lemp7.yml*
+nginx + mysql + php7.0.
 
-Log in to your server as superuser (root) via SSH and execute this command:
+Пример установки: 
 
-    wget -qO - http://cartoma.tk/preconf | bash
+```
+ansible-playbook -e @config/main.json -c local -i inventory_php7 lemp7.yml
+```
 
-Put custom settings in the JSON file:
+- *lvemp7.yml*
+varnish + nginx + mysql + php7.0.
 
-    cd /srv/cartomatic/<version>
-    vim config/simple.json
+Пример установки: 
 
-You can also specify extra variables in files in 'group_vars' folder.
+```
+ansible-playbook -e @config/main.json -c local -i inventory_varnish lvemp7.yml
+```
 
-Run:
+Для php7, поддерживаемые ос:
 
-    ansible-playbook lamp.yml -c local -e @config/simple.json
+- Ubuntu 14.04 x86_64
+- Ubuntu 14.10 x86_64
+- CentOS 6 x86_64
+- CentOS 7 x86_64
 
-Passwords will be saved in the 'credentials' folder.
+''Стабильно работает только на чистых инсталляциях.''
 
-## Supported platforms
+#Установка#
 
-* Ubuntu 14.04 x86_64
-* Ubuntu 14.10 x86_64
-* Ubuntu 15.04 x86_64
-* Debian 6 Squeeze x86_64
-* Debian 7 Wheezy x86_64
-* Debian 8 Jessie x86_64
-* CentOS 6 x86_64
-* CentOS 7 x86_64
+### Установка ansible (v. 1.9.x)
 
-## Restrictions
+*Ubuntu*
 
-* Works well only for clean installations.
-* Not compatible with ISPManager, cPanel, Plesk etc.
+```
+sudo apt-get -y update
+sudo apt-get -y install git python-pip python-dev
+sudo pip install ansible
+```
 
-## Credits
+*CentOS 6*
 
-* [@jsjant](https://github.com/jsjant) for project's name.
-* [@UlyanovskUI](https://twitter.com/UlyanovskUI) for logo design.
-* Tatiana Durnova for the help with translation.
+```
+sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+sudo yum install -y gcc python-pip python-devel git
+sudo pip install ansible
+```
 
-## License
+*CentOS 7*
 
-GNU Public Licence 3 (GPL v3)
+```
+sudo rpm -Uvh https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+sudo yum install -y gcc python-pip python-devel git
+sudo pip install ansible
+```
+
+### Запуск плейбука
+
+1. Скачиваем репозиторий. 
+```
+mkdir ~/cartomatic && git clone https://github.com/incrize/cartomatic.git ~/cartomatic
+```
+
+2. Настройка
+```
+cp ~/cartomatic/config/advanced.json  ~/cartomatic/config/main.json
+```
+ Вносим правки в файл ~/cartomatic/config/main.json.
+ - stores_dir - директория проектов
+ - stores - массив проектов
+    - «example.com» - доменное имя проекта
+    - storefronts - массив доменных имен витрин
+    - database - параметры подключения к БД
+
+3. Запуск
+```
+cd ~/cartomatic/ && ansible-playbook -e @config/main.json -c local -i inventory_varnish lvemp7.yml
+```
+
+Если процесс прошел успешно, то можно устанавливать cscart.
