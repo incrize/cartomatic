@@ -1,4 +1,4 @@
-Сценарии:
+# Сценарии
 
 - *lamp.yml*
 nginx + apache + mysql + php5.6. 
@@ -45,7 +45,7 @@ ansible-playbook -e @config/main.json -c local -i inventory_varnish lvemp7.yml
 
 ''Стабильно работает только на чистых инсталляциях.''
 
-#Установка#
+# Установка
 
 ### Установка ansible (v. 1.9.x)
 
