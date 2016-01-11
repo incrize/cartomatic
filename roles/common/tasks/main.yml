@@ -11,6 +11,10 @@
   action: command /usr/sbin/setenforce 0
   when: ansible_os_family == "RedHat"
 
+- name: ensure firewall is turned of
+  shell: systemctl stop firewalld && systemctl disable firewalld
+  when: ansible_distribution == "CentOS" and ansible_distribution_major_version == "7"
+
 - name: installing dotdeb repository
   template:
     src=sources.list.d/dotdeb.list.j2
