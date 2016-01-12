@@ -1,6 +1,7 @@
 php_role:
   common:
     packages:
+      - make
       - gcc
       - php70w-common
       - php70w-cli
